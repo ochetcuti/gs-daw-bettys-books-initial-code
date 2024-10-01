@@ -1,0 +1,29 @@
+name: Deploy Node.js Application
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Install expect
+      run: sudo apt-get update && sudo apt-get install -y expect
+
+    - name: Set up SSH key
+      run: |
+        mkdir -p ~/.ssh
+        echo "${{ secrets.PRIVATE_KEY }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+
+    - name: Set execute permission for deploy.sh
+      run: chmod +x ./deploy.sh
+
+    - name: Run deploy script with private key
+      run: ./deploy.sh ~/.ssh/id_rsa "git@github.com:ochetcuti-dstl/gs-daw-bettys-books-initial-code.git" "/var/www/gs-daw-bettys-books-initial-code" "03.1.a-lab2" "main" "ochet001" "690"
