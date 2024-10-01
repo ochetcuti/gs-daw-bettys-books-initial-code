@@ -26,4 +26,4 @@ jobs:
       run: chmod +x ./deploy.sh
 
     - name: Run deploy script with private key
-      run: ./deploy.sh ~/.ssh/id_rsa "git@github.com:ochetcuti-dstl/gs-daw-bettys-books-initial-code.git" "/var/www/gs-daw-bettys-books-initial-code" "03.1.a-lab2" "main" "ochet001" "690"
+      run: ./deploy.sh ~/.ssh/id_rsa "git@github.com:ochetcuti-dstl/gs-daw-bettys-books-initial-code.git" "/var/www/gs-daw-bettys-books-initial-code" "bettys-books" "main" "ochet001" "690"
