@@ -7,7 +7,7 @@ USE bettys_books;
 # Create the tables
 CREATE TABLE IF NOT EXISTS books (id INT AUTO_INCREMENT,name VARCHAR(50),price DECIMAL(5, 2) unsigned,PRIMARY KEY(id));
 
-CREATE TABLE  IF NOT EXISTS users(
+CREATE TABLE IF NOT EXISTS users(
 	ID VARCHAR(36) DEFAULT (uuid()),
     UserName varchar(225) NOT NULL,
 	LastName varchar(255) NOT NULL,
