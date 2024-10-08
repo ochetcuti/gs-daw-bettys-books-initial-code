@@ -19,7 +19,8 @@ CREATE TABLE IF NOT EXISTS users(
 
 # Create the app user
 CREATE USER IF NOT EXISTS 'bettys_books_app'@'localhost' IDENTIFIED BY 'qwertyuiop'; 
-GRANT ALL PRIVILEGES ON bettys_books.* TO ' bettys_books_app'@'localhost';
+GRANT ALL PRIVILEGES ON bettys_books.* TO 'bettys_books_app'@'localhost';
+
 
 # adding test data
 
