@@ -7,6 +7,16 @@ USE bettys_books;
 # Create the tables
 CREATE TABLE IF NOT EXISTS books (id INT AUTO_INCREMENT,name VARCHAR(50),price DECIMAL(5, 2) unsigned,PRIMARY KEY(id));
 
+CREATE TABLE  IF NOT EXISTS users(
+	ID VARCHAR(36) DEFAULT (uuid()),
+    UserName varchar(225) NOT NULL,
+	LastName varchar(255) NOT NULL,
+    FirstName varchar(255) NOT NULL,
+    Email varchar(255) NOT NULL,
+    Password BINARY(60) NOT NULL,
+    PRIMARY KEY (ID)
+)
+
 # Create the app user
 CREATE USER IF NOT EXISTS 'bettys_books_app'@'localhost' IDENTIFIED BY 'qwertyuiop'; 
 GRANT ALL PRIVILEGES ON bettys_books.* TO ' bettys_books_app'@'localhost';
