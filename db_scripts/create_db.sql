@@ -18,8 +18,14 @@ CREATE TABLE IF NOT EXISTS users(
 )
 
 # Create the app user
-CREATE USER IF NOT EXISTS 'bettys_books_app'@'localhost' IDENTIFIED BY 'qwertyuiop'; 
+CREATE USER IF NOT EXISTS 'bettys_books_app'@'localhost' IDENTIFIED BY 'qwertyuiop';
+
+# Grant privileges to the app user
 GRANT ALL PRIVILEGES ON bettys_books.* TO 'bettys_books_app'@'localhost';
+
+# Flush privileges to ensure the changes take effect
+FLUSH PRIVILEGES;
+
 
 
 # adding test data
