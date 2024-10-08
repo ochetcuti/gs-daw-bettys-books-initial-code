@@ -1,29 +1,39 @@
-name: Deploy Node.js Application
+name: Deploy to Server
 
 on:
   push:
     branches:
-      - main
+      - main 
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: Test SSH Connection
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.PRIVATE_KEY }}
+          port: '2690' 
+          proxy_host: ${{ secrets.JUMP_HOST }}
+          proxy_username: ${{ secrets.JUMP_USER }}
+          proxy_key: ${{ secrets.PRIVATE_KEY }}  # Use the same key for the proxy
+          script: |
+            echo "SSH connection successful!"
 
-    - name: Install expect
-      run: sudo apt-get update && sudo apt-get install -y expect
-
-    - name: Set up SSH key
-      run: |
-        mkdir -p ~/.ssh
-        echo "${{ secrets.PRIVATE_KEY }}" > ~/.ssh/id_rsa
-        chmod 600 ~/.ssh/id_rsa
-
-    - name: Set execute permission for deploy.sh
-      run: chmod +x ./deploy.sh
-
-    - name: Run deploy script with private key
-      run: ./deploy.sh ~/.ssh/id_rsa "git@github.com:ochetcuti-dstl/gs-daw-bettys-books-initial-code.git" "/var/www/gs-daw-bettys-books-initial-code" "bettys-books" "main" "ochet001" "690"
+      - name: Execute Deployment Script on Server
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.PRIVATE_KEY }}
+          port: '2690'
+          proxy_host: ${{ secrets.JUMP_HOST }}
+          proxy_username: ${{ secrets.JUMP_USER }}
+          proxy_key: ${{ secrets.PRIVATE_KEY }}
+          script: |
+            /opt/deployment-scripts/deploy.sh \
+              https://github.com/${{ github.repository }} \
+              ${{ github.ref_name }}
