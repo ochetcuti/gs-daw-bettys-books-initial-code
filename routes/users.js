@@ -3,11 +3,20 @@ const bcrypt = require('bcrypt')
 const express = require("express")
 const router = express.Router()
 
+const redirectLogin = (req, res, next) => {
+    if (!req.session.userId ) {
+      res.redirect('./login') // redirect to the login page
+    } else { 
+        next (); // move to the next middleware function
+    } 
+}
+
+
 router.get('/register', function (req, res, next) {
     res.render('register.ejs')                                                               
 }) 
 
-router.get('/list', function (req, res, next) {
+router.get('/list', redirectLogin, function (req, res, next) {
     let sqlquery = "SELECT ID, UserName, LastName, FirstName, Email FROM users" 
     // execute sql query
     db.query(sqlquery, (err, result) => {
@@ -34,7 +43,9 @@ router.post('/loggedin', function (req, res, next) {
           bcrypt.compare(req.body.password, password, (err, result) => {
             if (error) throw error;
             
-            else if (result == true) {
+            else if (result == true) {                
+                // Save user session here, when login is successful
+                req.session.userId = req.body.username;
                 res.send("Logged In Sucessfully")
             }else {
                 res.send("Failed to Log In")
