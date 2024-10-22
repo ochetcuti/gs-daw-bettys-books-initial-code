@@ -34,6 +34,8 @@ router.get('/addbook', function (req, res, next) {
 })
 
 router.post('/bookadded', function (req, res, next) {
+    req.body.name = req.sanitize(req.body.name)
+    req.body.price = req.sanitize(req.body.price)
     // saving data in database
     let sqlquery = "INSERT INTO books (name, price) VALUES (?,?)"
     // execute sql query

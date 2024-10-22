@@ -8,6 +8,12 @@ var mysql = require('mysql2')
 // Import Express Session
 var session = require ('express-session')
 
+// Import Express Validation
+var validator = require ('express-validator');
+
+// Import Express Sanitizer
+const expressSanitizer = require('express-sanitizer');
+
 // Create the express application object
 const app = express()
 const port = 8000
@@ -31,6 +37,7 @@ app.use(session({
     }
 }))
 
+app.use(expressSanitizer());
 
 // Define the database connection
 const db = mysql.createConnection ({
